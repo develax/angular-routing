@@ -7,19 +7,35 @@ import { ApplicationConfig, ErrorHandler, inject } from '@angular/core';
 import { FirstComponent } from './components/first/first.component';
 import { SecondComponent } from './components/second/second.component';
 import { GlobalErrorHandler } from './services/global-error-handler';
+import { ChildAComponent } from './components/first/child-a/child-a.component';
+import { ChildBComponent } from './components/first/child-b/child-b.component';
 
 export const routes: Routes = [
-  { path: 'first-component', component: FirstComponent },
+  {
+    path: 'first-component',
+    component: FirstComponent,
+    children:[
+      {
+        path: 'child-a',
+        component: ChildAComponent
+      },
+      {
+        path: 'child-b',
+        component: ChildBComponent
+      }
+    ]
+  },
   { path: 'second-component', component: SecondComponent },
   { path: 'crisis', component: CrisisListComponent },
   { path: 'heroes', component: HeroListComponent, data: { title: 'Heroes List' } },
   //{ path: '', redirectTo: '/heroes', pathMatch: 'full' },
 
   {
-    path: 'deprecated-hero',
-    redirectTo: ({ queryParams }) => {
+    path: 'deprecated-hero/:id',
+    redirectTo: ({ queryParams, params }) => {
       const errorHandler = inject(GlobalErrorHandler);
-      const heroId = queryParams['id'];
+      //const heroId = queryParams['id'];
+      const heroId = params['id'];
       if (heroId !== undefined) {
         return `/hero/${heroId}`;
       }

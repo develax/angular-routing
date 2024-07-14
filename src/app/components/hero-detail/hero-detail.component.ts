@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hero-detail',
@@ -9,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class HeroDetailComponent {
 
+  heroId: string | null;
+
+  constructor(private _route: ActivatedRoute){
+    this.heroId = _route.snapshot.paramMap.get('id');
+  }
 }
